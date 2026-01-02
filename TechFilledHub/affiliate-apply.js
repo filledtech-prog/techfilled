@@ -1,43 +1,41 @@
-// TechFilled Monetization Link Wiring
 (function () {
-  function setHref(id, url) {
-    var el = document.getElementById(id);
+  function safeSetLink(id, url, fallbackText) {
+    const el = document.getElementById(id);
     if (!el) return;
-    if (!url || typeof url !== "string") return;
-    el.setAttribute("href", url);
-  }
 
-  function safeGet(obj, path) {
-    try {
-      var parts = path.split(".");
-      var cur = obj;
-      for (var i = 0; i < parts.length; i++) {
-        if (!cur || typeof cur !== "object") return "";
-        cur = cur[parts[i]];
-      }
-      return typeof cur === "string" ? cur : "";
-    } catch (e) {
-      return "";
+    // If url is missing or still placeholder, keep it as '#'
+    if (!url || url === "#" || typeof url !== "string") {
+      el.setAttribute("href", "#");
+      el.style.pointerEvents = "none";
+      el.style.opacity = "0.6";
+      if (fallbackText) el.textContent = fallbackText;
+      return;
     }
+
+    el.setAttribute("href", url);
+    el.style.pointerEvents = "auto";
+    el.style.opacity = "1";
   }
 
-  function applyLinks() {
-    var A = window.TF_AFFILIATES || {};
-    setHref("highYieldLink", safeGet(A, "savings.highYield"));
-    setHref("budgetingLink", safeGet(A, "savings.budgetingTool"));
+  function applyAffiliateLinks() {
+    const cfg = window.TF_AFFILIATES || {};
 
-    setHref("tfHighYieldLink", safeGet(A, "savings.highYield"));
-    setHref("tfBudgetingLink", safeGet(A, "savings.budgetingTool"));
-    setHref("tfCreditMonitoringLink", safeGet(A, "credit.creditMonitoring"));
-    setHref("tfCreditBuilderLink", safeGet(A, "credit.creditBuilder"));
+    // Savings links
+    safeSetLink("tfHighYieldLink", cfg?.savings?.highYield, "High-yield savings options (coming soon)");
+    safeSetLink("tfBudgetingLink", cfg?.savings?.budgetingTool, "Budgeting & expense tracking apps (coming soon)");
 
-    setHref("tfGumroadLink", window.TF_GUMROAD_LINK || "");
+    // Credit links
+    safeSetLink("tfCreditMonitoringLink", cfg?.credit?.creditMonitoring, "Credit monitoring options (coming soon)");
+    safeSetLink("tfCreditBuilderLink", cfg?.credit?.creditBuilder, "Credit builder tools (coming soon)");
+
+    // Gumroad (THIS is the one we need live now)
+    safeSetLink("tfGumroadLink", cfg?.gumroad?.savingsBlueprint);
   }
 
+  // Run after DOM is ready
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", applyLinks);
+    document.addEventListener("DOMContentLoaded", applyAffiliateLinks);
   } else {
-    applyLinks();
+    applyAffiliateLinks();
   }
 })();
-
