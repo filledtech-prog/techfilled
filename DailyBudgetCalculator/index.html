@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Budget Calculator | TechFilled</title>
+
+    <meta name="description" content="Quick daily and weekly spending budget calculator based on your income, bills, and savings goals." />
+
+    <!-- PWA Essentials -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0b0e11" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/techfilled-192.png" />
+    <link rel="apple-touch-icon" href="icons/techfilled-192.png" />
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="app-wrapper">
+        <main class="card">
+            <header class="card-header">
+                <h1>Daily Budget Calculator</h1>
+                <p class="subtitle">Get a quick estimate of how much you can spend per day.</p>
+            </header>
+
+            <form id="budgetForm" class="form">
+                <div class="field">
+                    <label for="monthlyIncome">Monthly take-home pay ($)</label>
+                    <input
+                        type="number"
+                        id="monthlyIncome"
+                        inputmode="decimal"
+                        placeholder="e.g. 4000"
+                        min="0"
+                        step="0.01"
+                        required
+                    />
+                </div>
+
+                <div class="field">
+                    <label for="monthlyBills">Total monthly bills & expenses ($)</label>
+                    <input
+                        type="number"
+                        id="monthlyBills"
+                        inputmode="decimal"
+                        placeholder="e.g. 2300"
+                        min="0"
+                        step="0.01"
+                        required
+                    />
+                </div>
+
+                <div class="field">
+                    <label for="savingsGoal">Monthly savings goal ($)</label>
+                    <input
+                        type="number"
+                        id="savingsGoal"
+                        inputmode="decimal"
+                        placeholder="e.g. 400"
+                        min="0"
+                        step="0.01"
+                        required
+                    />
+                </div>
+
+                <button type="submit" class="primary-btn">
+                    Calculate Daily Budget
+                </button>
+
+                <p id="errorMessage" class="error-message" aria-live="polite"></p>
+            </form>
+
+            <section id="results" class="results" hidden>
+                <h2>Your Estimated Budget</h2>
+                <div class="results-row">
+                    <span>Daily spending budget:</span>
+                    <span id="dailyBudget" class="highlight"></span>
+                </div>
+                <div class="results-row">
+                    <span>Weekly spending budget:</span>
+                    <span id="weeklyBudget"></span>
+                </div>
+                <div class="results-row">
+                    <span>Monthly leftover after bills & savings:</span>
+                    <span id="monthlyLeftover"></span>
+                </div>
+                <div class="results-row negative" id="shortfallRow" hidden>
+                    <span>Shortfall (amount over budget):</span>
+                    <span id="shortfallAmount"></span>
+                </div>
+
+                <p class="note">
+                    This is a rough estimate and doesn’t include taxes, fees, or unexpected expenses.
+                    Always review your full budget before making financial decisions.
+                </p>
+            </section>
+        </main>
+
+<section class="tf-monetize" aria-label="TechFilled Picks">
+  <h3>TechFilled Picks</h3>
+  <p class="small">Optional tools and resources that can help you move faster.</p>
+
+  <ul class="rec-list">
+    <li><a id="tfHighYieldLink" href="#" target="_blank" rel="noopener">Find high-yield savings options →</a></li>
+    <li><a id="tfBudgetingLink" href="#" target="_blank" rel="noopener">Budgeting & expense tracking apps →</a></li>
+    <li><a id="tfCreditMonitoringLink" href="#" target="_blank" rel="noopener">Check credit monitoring options →</a></li>
+    <li><a id="tfCreditBuilderLink" href="#" target="_blank" rel="noopener">Explore credit builder tools →</a></li>
+  </ul>
+
+  <a id="tfGumroadLink" class="tf-cta" href="#" target="_blank" rel="noopener">Get the $7 Savings Blueprint →</a>
+
+  <p class="small tf-ftc"><strong>FTC Disclosure:</strong> Some links may be affiliate links. If you click and take action, I may earn a commission at no extra cost to you.</p>
+</section>
+
+
+
+        <footer class="footer">
+            Built with <span class="heart">❤</span> by <span class="brand">TechFilled</span>
+        </footer>
+    </div>
+
+      <script src="affiliate-config.js"></script>
+<script src="script.js"></script>
+
+    <!-- PWA: Service Worker Registration -->
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker
+                    .register("./service-worker.js")
+                    .then(() => console.log("Service worker registered"))
+                    .catch(err => console.error("Service worker registration failed:", err));
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Impact Verification -->
+  <meta name="impact-site-verification" value="de7628f0-f671-47a2-b37d-59b05ee9e8a1" />
+
+  <title>Savings Goal Planner | TechFilled</title>
+  <meta name="description" content="Estimate how long it will take to reach a savings goal with monthly contributions and optional APY." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0b0e11" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/techfilled-192.png" />
+  <link rel="apple-touch-icon" href="icons/techfilled-192.png" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <main class="card">
+      <header class="header">
+        <h1>Savings Goal Planner</h1>
+        <p class="sub">Estimate months to goal, target date, and impact of APY.</p>
+      </header>
+
+      <form id="plannerForm" class="form">
+        <div class="grid">
+          <div class="field">
+            <label for="goalAmount">Goal amount ($)</label>
+            <input id="goalAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 5000" required />
+          </div>
+
+          <div class="field">
+            <label for="startingAmount">Starting amount ($)</label>
+            <input id="startingAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 250" value="0" required />
+          </div>
+
+          <div class="field">
+            <label for="monthlyContribution">Monthly contribution ($)</label>
+            <input id="monthlyContribution" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 200" required />
+          </div>
+
+          <div class="field">
+            <label for="apy">APY (optional) (%)</label>
+            <input id="apy" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 4.50" />
+          </div>
+        </div>
+
+        <div class="toggles">
+          <label class="toggle">
+            <input id="showPreview" type="checkbox" />
+            <span>Show preview table (first 12 months)</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn">Calculate</button>
+        <p id="error" class="error" aria-live="polite"></p>
+      </form>
+
+      <section id="results" class="results" hidden>
+        <h2>Results</h2>
+
+        <div class="row">
+          <span>Estimated time to goal:</span>
+          <strong id="timeToGoal"></strong>
+        </div>
+
+        <div class="row">
+          <span>Target date:</span>
+          <strong id="targetDate"></strong>
+        </div>
+
+        <div class="row">
+          <span>Total contributed:</span>
+          <strong id="totalContributed"></strong>
+        </div>
+
+        <div class="row">
+          <span>Estimated interest earned:</span>
+          <strong id="interestEarned"></strong>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="insight" id="insightBox"></div>
+
+        <section id="tableWrap" class="table-wrap" hidden>
+          <h3>Preview (first 12 months)</h3>
+          <div class="table-scroll">
+            <table class="table" aria-label="Savings preview table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Start</th>
+                  <th>Contribution</th>
+                  <th>Interest</th>
+                  <th>End</th>
+                </tr>
+              </thead>
+              <tbody id="previewTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <p class="note">
+          This is an estimate. Actual interest timing and compounding can vary by bank.
+        </p>
+
+        <!-- MONETIZATION SECTION -->
+        <section class="recommended">
+          <h3>Recommended Tools</h3>
+          <p class="small">
+            These tools can help you reach your savings goal faster.
+          </p>
+
+          <ul class="rec-list">
+            <li>
+              <a id="highYieldLink" href="#"\1>Find high-yield savings options →
+              </a>
+            </li>
+            <li>
+              <a id="budgetingLink" href="#"\1>Budgeting & expense tracking apps →
+              </a>
+            </li>
+            <li>
+              <a href="#" target="_blank" rel="noopener">
+                Learn how to optimize your savings →
+              </a>
+            </li>
+          </ul>
+
+          <p class="disclosure">
+            Some links may support development at no extra cost to you.
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      Built with <span class="heart">❤</span> by <strong>TechFilled</strong>
+    </footer>
+  </div>
+
+    <script src="affiliate-config.js"></script>
+<script src="script.js"></script>
+
+  <!-- PWA: Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./service-worker.js")
+          .catch(err => console.error("Service worker failed:", err));
+      });
+    }
+  </script>
+</body>
+</html>

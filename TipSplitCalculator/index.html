@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tip & Bill Split Calculator | TechFilled</title>
+  <meta name="description" content="Split a bill, calculate tip, and see per-person totals fast. Mobile-friendly and installable." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0b0e11" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/techfilled-192.png" />
+  <link rel="apple-touch-icon" href="icons/techfilled-192.png" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <main class="card">
+      <header class="header">
+        <h1>Tip & Bill Split Calculator</h1>
+        <p class="sub">Quickly calculate tip and split totals per person.</p>
+      </header>
+
+      <form id="calcForm" class="form">
+        <div class="grid">
+          <div class="field">
+            <label for="billAmount">Bill amount ($)</label>
+            <input id="billAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 62.40" required />
+          </div>
+
+          <div class="field">
+            <label for="tipPercent">Tip (%)</label>
+            <input id="tipPercent" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 18" value="18" required />
+            <div class="quick-tips" aria-label="Quick tip buttons">
+              <button type="button" class="chip" data-tip="15">15%</button>
+              <button type="button" class="chip" data-tip="18">18%</button>
+              <button type="button" class="chip" data-tip="20">20%</button>
+              <button type="button" class="chip" data-tip="25">25%</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="taxPercent">Tax (%) (optional)</label>
+            <input id="taxPercent" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 7" />
+          </div>
+
+          <div class="field">
+            <label for="peopleCount">People</label>
+            <input id="peopleCount" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 2" value="2" required />
+          </div>
+        </div>
+
+        <div class="toggles">
+          <label class="toggle">
+            <input id="tipOnTax" type="checkbox" />
+            <span>Tip on (bill + tax)</span>
+          </label>
+
+          <label class="toggle">
+            <input id="roundUp" type="checkbox" />
+            <span>Round per-person total up to nearest $1</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn">Calculate</button>
+        <p id="error" class="error" aria-live="polite"></p>
+      </form>
+
+      <section id="results" class="results" hidden>
+        <h2>Results</h2>
+
+        <div class="row">
+          <span>Bill:</span>
+          <strong id="billOut"></strong>
+        </div>
+
+        <div class="row">
+          <span>Tax:</span>
+          <strong id="taxOut"></strong>
+        </div>
+
+        <div class="row">
+          <span>Tip:</span>
+          <strong id="tipOut"></strong>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row total">
+          <span>Total:</span>
+          <strong id="totalOut"></strong>
+        </div>
+
+        <div class="row perperson">
+          <span>Per person:</span>
+          <strong id="perPersonOut"></strong>
+        </div>
+
+        <p class="note">
+          Tip math can vary by restaurant and region. This is a quick estimate.
+        </p>
+      </section>
+    </main>
+
+<section class="tf-monetize" aria-label="TechFilled Picks">
+  <h3>TechFilled Picks</h3>
+  <p class="small">Optional tools and resources that can help you move faster.</p>
+
+  <ul class="rec-list">
+    <li><a id="tfHighYieldLink" href="#" target="_blank" rel="noopener">Find high-yield savings options →</a></li>
+    <li><a id="tfBudgetingLink" href="#" target="_blank" rel="noopener">Budgeting & expense tracking apps →</a></li>
+    <li><a id="tfCreditMonitoringLink" href="#" target="_blank" rel="noopener">Check credit monitoring options →</a></li>
+    <li><a id="tfCreditBuilderLink" href="#" target="_blank" rel="noopener">Explore credit builder tools →</a></li>
+  </ul>
+
+  <a id="tfGumroadLink" class="tf-cta" href="#" target="_blank" rel="noopener">Get the $7 Savings Blueprint →</a>
+
+  <p class="small tf-ftc"><strong>FTC Disclosure:</strong> Some links may be affiliate links. If you click and take action, I may earn a commission at no extra cost to you.</p>
+</section>
+
+
+
+    <footer class="footer">
+      Built with <span class="heart">❤</span> by <strong>TechFilled</strong>
+    </footer>
+  </div>
+
+    <script src="affiliate-config.js"></script>
+<script src="script.js"></script>
+
+  <!-- PWA: Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./service-worker.js")
+          .catch(err => console.error("Service worker failed:", err));
+      });
+    }
+  </script>
+</body>
+</html>

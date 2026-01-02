@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debt Payoff Planner | TechFilled</title>
+  <meta name="description" content="Estimate how long it will take to pay off your debt and how much interest you'll pay." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0b0e11" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/techfilled-192.png" />
+  <link rel="apple-touch-icon" href="icons/techfilled-192.png" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <main class="card">
+      <header class="header">
+        <h1>Debt Payoff Planner</h1>
+        <p class="sub">Estimate payoff time, total interest, and total paid.</p>
+      </header>
+
+      <form id="plannerForm" class="form">
+        <div class="grid">
+          <div class="field">
+            <label for="debtAmount">Total debt balance ($)</label>
+            <input id="debtAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 12000" required />
+          </div>
+
+          <div class="field">
+            <label for="apr">APR (%)</label>
+            <input id="apr" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 19.99" required />
+          </div>
+
+          <div class="field">
+            <label for="monthlyPayment">Monthly payment ($)</label>
+            <input id="monthlyPayment" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 350" required />
+          </div>
+
+          <div class="field">
+            <label for="extraPayment">Extra monthly payment (optional) ($)</label>
+            <input id="extraPayment" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 50" />
+          </div>
+        </div>
+
+        <div class="toggles">
+          <label class="toggle">
+            <input id="showAmortization" type="checkbox" />
+            <span>Show payoff preview table (first 12 months)</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn">Calculate</button>
+        <p id="error" class="error" aria-live="polite"></p>
+      </form>
+
+      <section id="results" class="results" hidden>
+        <h2>Results</h2>
+
+        <div class="row">
+          <span>Estimated payoff time:</span>
+          <strong id="payoffTime"></strong>
+        </div>
+
+        <div class="row">
+          <span>Total interest paid:</span>
+          <strong id="totalInterest"></strong>
+        </div>
+
+        <div class="row">
+          <span>Total amount paid:</span>
+          <strong id="totalPaid"></strong>
+        </div>
+
+        <div class="row">
+          <span>Monthly payment used:</span>
+          <strong id="paymentUsed"></strong>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="insight" id="insightBox"></div>
+
+        <section id="tableWrap" class="table-wrap" hidden>
+          <h3>Payoff preview (first 12 months)</h3>
+          <div class="table-scroll">
+            <table class="table" aria-label="Payoff preview table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Start Balance</th>
+                  <th>Interest</th>
+                  <th>Principal</th>
+                  <th>End Balance</th>
+                </tr>
+              </thead>
+              <tbody id="previewTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <p class="note">
+          This is an estimate. Actual interest calculations vary by lender and compounding rules.
+        </p>
+      </section>
+    </main>
+
+<section class="tf-monetize" aria-label="TechFilled Picks">
+  <h3>TechFilled Picks</h3>
+  <p class="small">Optional tools and resources that can help you move faster.</p>
+
+  <ul class="rec-list">
+    <li><a id="tfHighYieldLink" href="#" target="_blank" rel="noopener">Find high-yield savings options →</a></li>
+    <li><a id="tfBudgetingLink" href="#" target="_blank" rel="noopener">Budgeting & expense tracking apps →</a></li>
+    <li><a id="tfCreditMonitoringLink" href="#" target="_blank" rel="noopener">Check credit monitoring options →</a></li>
+    <li><a id="tfCreditBuilderLink" href="#" target="_blank" rel="noopener">Explore credit builder tools →</a></li>
+  </ul>
+
+  <a id="tfGumroadLink" class="tf-cta" href="#" target="_blank" rel="noopener">Get the $7 Savings Blueprint →</a>
+
+  <p class="small tf-ftc"><strong>FTC Disclosure:</strong> Some links may be affiliate links. If you click and take action, I may earn a commission at no extra cost to you.</p>
+</section>
+
+
+
+    <footer class="footer">
+      Built with <span class="heart">❤</span> by <strong>TechFilled</strong>
+    </footer>
+  </div>
+
+    <script src="affiliate-config.js"></script>
+<script src="script.js"></script>
+
+  <!-- PWA: Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./service-worker.js")
+          .catch(err => console.error("Service worker failed:", err));
+      });
+    }
+  </script>
+</body>
+</html>

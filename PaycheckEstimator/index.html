@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paycheck & Overtime Estimator</title>
+
+    <!-- PWA Essentials -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0b0e11" />
+    <link rel="icon" href="icons/techfilled-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="icons/techfilled-192.png" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0b0e11;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 60px auto;
+            padding: 30px;
+            background: #111521;
+            border-radius: 16px;
+            box-shadow: 0px 0px 18px rgba(0, 150, 255, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        p.description {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 25px;
+            color: #a0a8b8;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            margin-top: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #1c2233;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: linear-gradient(90deg, #12d1ff, #0a64ff);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .results {
+            background: #161b27;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #788396;
+            font-size: 13px;
+        }
+
+        footer span {
+            color: #ff3b30;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Paycheck & Overtime Estimator</h1>
+        <p class="description">Quick rough estimate of your weekly pay.</p>
+
+        <label>Hourly rate ($)</label>
+        <input type="number" id="hourlyRate" placeholder="e.g. 18.50" />
+
+        <label>Regular hours worked</label>
+        <input type="number" id="regularHours" placeholder="e.g. 40" />
+
+        <label>Overtime hours</label>
+        <input type="number" id="overtimeHours" placeholder="e.g. 5" />
+
+        <button onclick="calculatePaycheck()">Calculate Paycheck</button>
+
+        <div class="results" id="results" style="display: none;">
+            <p><strong>Estimated Pay</strong></p>
+            <p>Regular pay: <span id="regularPay"></span></p>
+            <p>Overtime pay: <span id="overtimePay"></span></p>
+            <p>Total (gross): <span id="totalPay"></span></p>
+        </div>
+    </div>
+
+<section class="tf-monetize" aria-label="TechFilled Picks">
+  <h3>TechFilled Picks</h3>
+  <p class="small">Optional tools and resources that can help you move faster.</p>
+
+  <ul class="rec-list">
+    <li><a id="tfHighYieldLink" href="#" target="_blank" rel="noopener">Find high-yield savings options →</a></li>
+    <li><a id="tfBudgetingLink" href="#" target="_blank" rel="noopener">Budgeting & expense tracking apps →</a></li>
+    <li><a id="tfCreditMonitoringLink" href="#" target="_blank" rel="noopener">Check credit monitoring options →</a></li>
+    <li><a id="tfCreditBuilderLink" href="#" target="_blank" rel="noopener">Explore credit builder tools →</a></li>
+  </ul>
+
+  <a id="tfGumroadLink" class="tf-cta" href="#" target="_blank" rel="noopener">Get the $7 Savings Blueprint →</a>
+
+  <p class="small tf-ftc"><strong>FTC Disclosure:</strong> Some links may be affiliate links. If you click and take action, I may earn a commission at no extra cost to you.</p>
+</section>
+
+
+
+    <footer>
+        Built with <span>❤</span> by TechFilled
+    </footer>
+
+      <script src="affiliate-config.js"></script>
+<script>
+        function calculatePaycheck() {
+            const hourlyRate = parseFloat(document.getElementById("hourlyRate").value);
+            const regularHours = parseFloat(document.getElementById("regularHours").value);
+            const overtimeHours = parseFloat(document.getElementById("overtimeHours").value);
+
+            if (isNaN(hourlyRate) || isNaN(regularHours) || isNaN(overtimeHours)) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            const regularPay = hourlyRate * regularHours;
+            const overtimePay = overtimeHours * hourlyRate * 1.5;
+            const totalPay = regularPay + overtimePay;
+
+            document.getElementById("regularPay").textContent = `$${regularPay.toFixed(2)}`;
+            document.getElementById("overtimePay").textContent = `$${overtimePay.toFixed(2)}`;
+            document.getElementById("totalPay").textContent = `$${totalPay.toFixed(2)}`;
+
+            document.getElementById("results").style.display = "block";
+        }
+
+        /* ---- PWA Service Worker Registration ---- */
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker
+                    .register("./service-worker.js")
+                    .then(() => console.log("Service Worker registered"))
+                    .catch(err => console.log("Service worker failed:", err));
+            });
+        }
+    </script>
+  <script src="affiliate-apply.js"></script>
+</body>
+</html>
