@@ -1,57 +1,51 @@
-/* sw.js - TechFilled monorepo service worker
-   Goal: avoid stale cached Hub/JS that can break monetization links.
+/* sw.js — TechFilled monorepo service worker (Hub)
+   Version: 20260106
+   Purpose: prevent stale caching while NEVER intercepting external affiliate links.
 */
-
-const CACHE_VERSION = "tf-v20260105";
-const STATIC_CACHE = `${CACHE_VERSION}-static`;
+const CACHE_VERSION = "tf-hub-20260106";
+const CACHE_NAME = `${CACHE_VERSION}-static`;
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
-  event.waitUntil(caches.open(STATIC_CACHE).catch(() => null));
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.map((k) => (k.startsWith("tf-v20260105") ? null : caches.delete(k))));
+    await Promise.all(keys.map((k) => {
+      if (!k.startsWith(CACHE_VERSION)) return caches.delete(k);
+    }));
     await self.clients.claim();
   })());
 });
 
-// Network-first for HTML; cache for assets as a fallback.
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // Only handle our GitHub Pages path
+  // 🚫 Never handle cross-origin requests (Gumroad, affiliate networks)
+  if (url.origin !== self.location.origin) return;
+
+  // Only handle our GitHub Pages scope
   if (!url.pathname.startsWith("/techfilled/")) return;
 
-  const accept = req.headers.get("accept") || "";
-  const isHTML = req.mode === "navigate" || accept.includes("text/html");
+  const isHTML =
+    req.mode === "navigate" ||
+    (req.headers.get("accept") || "").includes("text/html");
 
   if (isHTML) {
-    event.respondWith((async () => {
-      try {
-        return await fetch(req);
-      } catch (e) {
-        const cached = await caches.match(req);
-        return cached || Response.error();
-      }
-    })());
+    event.respondWith(fetch(req).catch(() => caches.match(req)));
     return;
   }
 
   event.respondWith((async () => {
     const cached = await caches.match(req);
     if (cached) return cached;
-
+    const fresh = await fetch(req);
     try {
-      const fresh = await fetch(req);
-      const cache = await caches.open(STATIC_CACHE);
-      cache.put(req, fresh.clone()).catch(() => {});
-      return fresh;
-    } catch (e) {
-      return cached || Response.error();
-    }
+      const cache = await caches.open(CACHE_NAME);
+      cache.put(req, fresh.clone());
+    } catch (_) {}
+    return fresh;
   })());
 });

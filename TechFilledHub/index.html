@@ -78,8 +78,6 @@
   </style>
 
   <!-- Cache-bust query to reduce stale SW + CDN caching -->
-  <script defer src="./affiliate-config.js?v=20260105"></script>
-  <script defer src="./affiliate-apply.js?v=20260105"></script>
 </head>
 
 <body>
@@ -179,5 +177,8 @@
       navigator.serviceWorker.register("../sw.js?v=20260105").catch(() => {});
     }
   </script>
+  <script defer src="../shared/affiliate-config.js?v=20260106"></script>
+  <script defer src="../shared/affiliate-apply.js?v=20260106"></script>
+
 </body>
 </html>
