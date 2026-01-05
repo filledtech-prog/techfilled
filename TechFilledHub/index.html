@@ -77,7 +77,9 @@
     .fine{margin-top:10px;color:var(--muted);font-size:12px}
   </style>
 
-  <!-- Cache-bust query to reduce stale SW + CDN caching -->
+  <!-- Shared affiliate logic -->
+  <script defer src="../shared/affiliate-config.js?v=20260106"></script>
+  <script defer src="../shared/affiliate-apply.js?v=20260106"></script>
 </head>
 
 <body>
@@ -97,7 +99,8 @@
       <h2>Get new tools as we launch them</h2>
       <div class="sub">We release simple, installable tools weekly. No spam — just practical apps that save time and money.</div>
       <div class="row" style="margin-top:10px;">
-        <a class="btn" href="https://forms.gle/" target="_blank" rel="noopener">Join the TechFilled List →</a>
+        <!-- FIX: forms.gle placeholder caused Firebase invalid dynamic link -->
+        <a class="btn" href="https://forms.gle/A1xQvRPvd4Xw3sxY8" target="_blank" rel="noopener">Join the TechFilled List →</a>
       </div>
     </div>
 
@@ -107,31 +110,37 @@
         <div class="card">
           <div class="title">Savings Goal Planner</div>
           <div class="meta">Set savings goals and track progress month by month. <b>New</b> • PWA</div>
-          <a class="btn" href="../SavingsGoalPlanner/" data-app-link="SavingsGoalPlanner">Open →</a>
+          <a class="btn" href="../SavingsGoalPlanner/">Open →</a>
         </div>
 
         <div class="card">
           <div class="title">Paycheck &amp; Overtime Estimator</div>
           <div class="meta">Estimate weekly gross pay with overtime in seconds. PWA • Installable</div>
-          <a class="btn" href="../PaycheckOvertimeEstimator/" data-app-link="PaycheckOvertimeEstimator">Open →</a>
+
+          <!-- IMPORTANT: Fix 404 by matching your REAL folder name.
+               If your repo folder is PaycheckEstimator, use that.
+               If your repo folder is PaycheckOvertimeEstimator, use that.
+               Right now your screenshot shows PaycheckOvertimeEstimator 404,
+               so we default to PaycheckEstimator which is the common existing folder name. -->
+          <a class="btn" href="../PaycheckEstimator/">Open →</a>
         </div>
 
         <div class="card">
           <div class="title">Daily Budget Calculator</div>
           <div class="meta">Turn income, bills, and savings into a daily spending target. PWA • Offline Ready</div>
-          <a class="btn" href="../DailyBudgetCalculator/" data-app-link="DailyBudgetCalculator">Open →</a>
+          <a class="btn" href="../DailyBudgetCalculator/">Open →</a>
         </div>
 
         <div class="card">
           <div class="title">Tip &amp; Bill Split Calculator</div>
           <div class="meta">Calculate tip, tax, and split totals per person fast. PWA • Offline Ready</div>
-          <a class="btn" href="../TipSplitCalculator/" data-app-link="TipSplitCalculator">Open →</a>
+          <a class="btn" href="../TipSplitCalculator/">Open →</a>
         </div>
 
         <div class="card">
           <div class="title">Debt Payoff Planner</div>
           <div class="meta">Estimate payoff time, total interest, and how extra payments help. PWA • Offline Ready</div>
-          <a class="btn" href="../DebtPayoffPlanner/" data-app-link="DebtPayoffPlanner">Open →</a>
+          <a class="btn" href="../DebtPayoffPlanner/">Open →</a>
         </div>
       </div>
     </div>
@@ -147,15 +156,14 @@
       </ul>
 
       <div class="row" style="margin-top:14px;">
-        <!-- GUARANTEED FIX: hard-link tos to Gumroad so it ALWAYS works -->
         <a
           class="btn btn-accent"
-          id="gumroadBlueprintLink"
           href="https://filledtech.gumroad.com/l/upacz"
           target="_blank"
           rel="noopener"
           data-affiliate-link="gumroad_savings_blueprint"
-        >Get the $7 Savings Blueprint →
+        >
+          Get the $7 Savings Blueprint →
         </a>
       </div>
 
@@ -171,14 +179,9 @@
   </div>
 
   <script>
-    // Service Worker (Hub)
-    // If your monorepo uses a different SW path, keep it consistent across apps.
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("../sw.js?v=20260105").catch(() => {});
+      navigator.serviceWorker.register("../sw.js?v=20260106").catch(() => {});
     }
   </script>
-  <script defer src="../shared/affiliate-config.js?v=20260106"></script>
-  <script defer src="../shared/affiliate-apply.js?v=20260106"></script>
-
 </body>
 </html>

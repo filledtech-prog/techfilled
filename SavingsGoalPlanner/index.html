@@ -1,160 +1,210 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b0f14" />
+  <title>Savings Goal Planner – TechFilled</title>
+  <meta name="description" content="Estimate months to goal, target date, and impact of APY." />
 
-  <!-- Impact Verification -->
-  <meta name="impact-site-verification" value="de7628f0-f671-47a2-b37d-59b05ee9e8a1" />
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#121924;
+      --text:#eaf2ff;
+      --muted:#b7c3d9;
+      --border:rgba(255,255,255,.10);
+      --link:#8ab4ff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:radial-gradient(1200px 700px at 50% 40%, rgba(40,80,255,.18), transparent 55%),
+                 radial-gradient(900px 600px at 20% 70%, rgba(0,255,200,.12), transparent 55%),
+                 var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px 14px;
+    }
+    .wrap{width:100%;max-width:920px;display:flex;flex-direction:column;align-items:center;gap:18px}
+    .card{
+      width:min(780px, 100%);
+      border:1px solid var(--border);
+      background:rgba(18,25,36,.86);
+      border-radius:18px;
+      padding:22px 18px;
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
+    }
+    h1{margin:0 0 6px;font-size:28px}
+    .sub{margin:0 0 16px;color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.25);
+      color:var(--text);
+      outline:none;
+    }
+    input:focus{border-color:rgba(138,180,255,.55)}
+    .row{display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:linear-gradient(90deg, rgba(0,200,255,.65), rgba(70,130,255,.75));
+      color:var(--text);
+      font-weight:700;
+      cursor:pointer;
+      width:100%;
+    }
+    .btn:hover{filter:brightness(1.03)}
+    .btnLink{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:650;
+      text-decoration:none;
+    }
+    .btnLink:hover{background:rgba(255,255,255,.10)}
+    .result{margin-top:14px;color:var(--muted);font-size:13px;min-height:20px}
+    .footer{margin-top:10px;color:var(--muted);font-size:12px;text-align:center}
 
-  <title>Savings Goal Planner | TechFilled</title>
-  <meta name="description" content="Estimate how long it will take to reach a savings goal with monthly contributions and optional APY." />
+    /* Picks section */
+    .picks{
+      width:min(780px, 100%);
+      border:1px solid var(--border);
+      background:rgba(18,25,36,.70);
+      border-radius:18px;
+      padding:16px 18px;
+    }
+    .picks h2{margin:0 0 8px;font-size:14px;color:var(--text)}
+    .picks .sub2{margin:0 0 10px;color:var(--muted);font-size:12px}
+    .picks ul{margin:0;padding-left:18px;color:var(--muted);font-size:12px}
+    .picks a{color:var(--link);text-decoration:none}
+    .picks a:hover{text-decoration:underline}
+    .gumrow{margin-top:12px}
+  </style>
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0b0e11" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/techfilled-192.png" />
-  <link rel="apple-touch-icon" href="icons/techfilled-192.png" />
-
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="wrap">
-    <main class="card">
-      <header class="header">
-        <h1>Savings Goal Planner</h1>
-        <p class="sub">Estimate months to goal, target date, and impact of APY.</p>
-      </header>
-
-      <form id="plannerForm" class="form">
-        <div class="grid">
-          <div class="field">
-            <label for="goalAmount">Goal amount ($)</label>
-            <input id="goalAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 5000" required />
-          </div>
-
-          <div class="field">
-            <label for="startingAmount">Starting amount ($)</label>
-            <input id="startingAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 250" value="0" required />
-          </div>
-
-          <div class="field">
-            <label for="monthlyContribution">Monthly contribution ($)</label>
-            <input id="monthlyContribution" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 200" required />
-          </div>
-
-          <div class="field">
-            <label for="apy">APY (optional) (%)</label>
-            <input id="apy" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 4.50" />
-          </div>
-        </div>
-
-        <div class="toggles">
-          <label class="toggle">
-            <input id="showPreview" type="checkbox" />
-            <span>Show preview table (first 12 months)</span>
-          </label>
-        </div>
-
-        <button type="submit" class="btn">Calculate</button>
-        <p id="error" class="error" aria-live="polite"></p>
-      </form>
-
-      <section id="results" class="results" hidden>
-        <h2>Results</h2>
-
-        <div class="row">
-          <span>Estimated time to goal:</span>
-          <strong id="timeToGoal"></strong>
-        </div>
-
-        <div class="row">
-          <span>Target date:</span>
-          <strong id="targetDate"></strong>
-        </div>
-
-        <div class="row">
-          <span>Total contributed:</span>
-          <strong id="totalContributed"></strong>
-        </div>
-
-        <div class="row">
-          <span>Estimated interest earned:</span>
-          <strong id="interestEarned"></strong>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="insight" id="insightBox"></div>
-
-        <section id="tableWrap" class="table-wrap" hidden>
-          <h3>Preview (first 12 months)</h3>
-          <div class="table-scroll">
-            <table class="table" aria-label="Savings preview table">
-              <thead>
-                <tr>
-                  <th>Month</th>
-                  <th>Start</th>
-                  <th>Contribution</th>
-                  <th>Interest</th>
-                  <th>End</th>
-                </tr>
-              </thead>
-              <tbody id="previewTableBody"></tbody>
-            </table>
-          </div>
-        </section>
-
-        <p class="note">
-          This is an estimate. Actual interest timing and compounding can vary by bank.
-        </p>
-
-        <!-- MONETIZATION SECTION -->
-        <section class="recommended">
-          <h3>Recommended Tools</h3>
-          <p class="small">
-            These tools can help you reach your savings goal faster.
-          </p>
-
-          <ul class="rec-list">
-            <li>
-              <a id="highYieldLink" href="#"\1>Find high-yield savings options →
-              </a>
-            </li>
-            <li>
-              <a id="budgetingLink" href="#"\1>Budgeting & expense tracking apps →
-              </a>
-            </li>
-            <li>
-              <a href="#" target="_blank" rel="noopener">
-                Learn how to optimize your savings →
-              </a>
-            </li>
-          </ul>
-
-          <p class="disclosure">
-            Some links may support development at no extra cost to you.
-          </p>
-        </section>
-      </section>
-    </main>
-
-    <footer class="footer">
-      Built with <span class="heart">❤</span> by <strong>TechFilled</strong>
-    </footer>
-  </div>
+  <!-- Shared affiliate logic -->
   <script defer src="../shared/affiliate-config.js?v=20260106"></script>
   <script defer src="../shared/affiliate-apply.js?v=20260106"></script>
-<script src="script.js"></script>
+</head>
 
-  <!-- PWA: Service Worker -->
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Savings Goal Planner</h1>
+      <p class="sub">Estimate months to goal, target date, and impact of APY.</p>
+
+      <div class="grid">
+        <div>
+          <label for="goal">Goal amount ($)</label>
+          <input id="goal" inputmode="decimal" placeholder="e.g. 5000" />
+        </div>
+        <div>
+          <label for="start">Starting amount ($)</label>
+          <input id="start" inputmode="decimal" value="0" />
+        </div>
+        <div>
+          <label for="monthly">Monthly contribution ($)</label>
+          <input id="monthly" inputmode="decimal" placeholder="e.g. 200" />
+        </div>
+        <div>
+          <label for="apy">APY (optional) (%)</label>
+          <input id="apy" inputmode="decimal" placeholder="e.g. 4.50" />
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="calcBtn">Calculate</button>
+      </div>
+
+      <div class="result" id="result"></div>
+
+      <div class="footer">Built with ❤ by TechFilled</div>
+    </div>
+
+    <!-- NEW: Picks + Gumroad CTA so this app also monetizes -->
+    <div class="picks">
+      <h2>TechFilled Picks</h2>
+      <p class="sub2">Optional tools and resources that can help you move faster.</p>
+      <ul>
+        <li><a href="#" data-affiliate-link="high_yield_savings">Find high-yield savings options →</a></li>
+        <li><a href="#" data-affiliate-link="budgeting_apps">Budgeting &amp; expense tracking apps →</a></li>
+        <li><a href="#" data-affiliate-link="credit_monitoring">Check credit monitoring options →</a></li>
+        <li><a href="#" data-affiliate-link="credit_builder">Explore credit builder tools →</a></li>
+      </ul>
+
+      <div class="gumrow">
+        <a
+          class="btnLink"
+          href="https://filledtech.gumroad.com/l/upacz"
+          target="_blank"
+          rel="noopener"
+          data-affiliate-link="gumroad_savings_blueprint"
+        >
+          Get the $7 Savings Blueprint →
+        </a>
+      </div>
+
+      <div class="footer" style="margin-top:10px;">
+        FTC Disclosure: Some links may be affiliate links. If you click and take action, I may earn a commission at no extra cost to you.
+      </div>
+    </div>
+  </div>
+
   <script>
+    function num(v){ const n = parseFloat(String(v).replace(/[^0-9.]/g,'')); return isFinite(n) ? n : null; }
+
+    document.getElementById("calcBtn").addEventListener("click", () => {
+      const goal = num(document.getElementById("goal").value);
+      const start = num(document.getElementById("start").value) ?? 0;
+      const monthly = num(document.getElementById("monthly").value);
+      const apy = num(document.getElementById("apy").value) ?? 0;
+
+      const out = document.getElementById("result");
+
+      if (goal === null || monthly === null || goal <= 0 || monthly <= 0) {
+        out.textContent = "Enter a valid goal amount and monthly contribution.";
+        return;
+      }
+
+      let balance = start;
+      const r = (apy > 0) ? (apy / 100 / 12) : 0;
+
+      let months = 0;
+      const maxMonths = 1200;
+
+      while (balance < goal && months < maxMonths) {
+        balance = balance * (1 + r) + monthly;
+        months += 1;
+      }
+
+      if (months >= maxMonths) {
+        out.textContent = "This goal may take longer than expected with the current inputs.";
+        return;
+      }
+
+      out.textContent = `Estimated time to reach $${goal.toFixed(0)}: ${months} month(s).`;
+    });
+
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker
-          .register("./service-worker.js")
-          .catch(err => console.error("Service worker failed:", err));
-      });
+      navigator.serviceWorker.register("../sw.js?v=20260106").catch(() => {});
     }
   </script>
 </body>
