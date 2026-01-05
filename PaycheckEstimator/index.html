@@ -1,176 +1,241 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Paycheck & Overtime Estimator</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b0f14" />
+  <title>Paycheck & Overtime Estimator – TechFilled</title>
+  <meta name="description" content="Quick rough estimate of weekly pay with overtime." />
 
-    <!-- PWA Essentials -->
-    <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#0b0e11" />
-    <link rel="icon" href="icons/techfilled-192.png" sizes="192x192" type="image/png" />
-    <link rel="apple-touch-icon" href="icons/techfilled-192.png" />
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#121924;
+      --text:#eaf2ff;
+      --muted:#b7c3d9;
+      --border:rgba(255,255,255,.10);
+      --link:#8ab4ff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:radial-gradient(1200px 700px at 50% 40%, rgba(40,80,255,.18), transparent 55%),
+                 radial-gradient(900px 600px at 20% 70%, rgba(0,255,200,.12), transparent 55%),
+                 var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px 14px;
+    }
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0b0e11;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-        }
+    .wrap{
+      width:100%;
+      max-width:920px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:18px;
+    }
 
-        .container {
-            max-width: 420px;
-            margin: 60px auto;
-            padding: 30px;
-            background: #111521;
-            border-radius: 16px;
-            box-shadow: 0px 0px 18px rgba(0, 150, 255, 0.15);
-        }
+    .card{
+      width:min(560px, 100%);
+      border:1px solid var(--border);
+      background:rgba(18,25,36,.86);
+      border-radius:18px;
+      padding:22px 18px;
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
+      text-align:center;
+    }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+    h1{margin:0 0 6px;font-size:28px;line-height:1.2}
+    .sub{margin:0 0 16px;color:var(--muted);font-size:13px}
 
-        p.description {
-            text-align: center;
-            font-size: 14px;
-            margin-bottom: 25px;
-            color: #a0a8b8;
-        }
+    .field{margin:10px 0;text-align:left}
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.25);
+      color:var(--text);
+      outline:none;
+    }
+    input:focus{border-color:rgba(138,180,255,.55)}
 
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: bold;
-            margin-top: 14px;
-        }
+    .btn{
+      margin-top:12px;
+      width:100%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:linear-gradient(90deg, rgba(0,200,255,.65), rgba(70,130,255,.75));
+      color:var(--text);
+      font-weight:700;
+      cursor:pointer;
+    }
+    .btn:hover{filter:brightness(1.03)}
 
-        input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: #1c2233;
-            color: #fff;
-            font-size: 16px;
-        }
+    .result{
+      margin-top:14px;
+      color:var(--muted);
+      font-size:13px;
+      min-height:20px;
+      text-align:left;
+    }
 
-        button {
-            margin-top: 25px;
-            width: 100%;
-            padding: 14px;
-            font-size: 18px;
-            background: linear-gradient(90deg, #12d1ff, #0a64ff);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            color: #fff;
-            font-weight: bold;
-        }
+    .footer{
+      margin-top:12px;
+      color:var(--muted);
+      font-size:12px;
+    }
 
-        .results {
-            background: #161b27;
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 16px;
-        }
+    /* Picks section */
+    .picks{
+      width:min(900px, 100%);
+      border:1px solid var(--border);
+      background:rgba(18,25,36,.70);
+      border-radius:18px;
+      padding:16px 18px;
+    }
+    .picks h2{
+      margin:0 0 8px;
+      font-size:14px;
+      color:var(--text);
+    }
+    .picks .sub2{
+      margin:0 0 10px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .picks ul{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .picks li{margin:6px 0}
+    .picks a{
+      color:var(--link);
+      text-decoration:none;
+    }
+    .picks a:hover{text-decoration:underline}
 
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #788396;
-            font-size: 13px;
-        }
+    .ctaRow{margin-top:12px}
+    .ctaBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(99,255,122,.12);
+      border-color:rgba(99,255,122,.35);
+      color:var(--text);
+      font-weight:700;
+      text-decoration:none;
+    }
+    .ctaBtn:hover{background:rgba(99,255,122,.18)}
+  </style>
 
-        footer span {
-            color: #ff3b30;
-        }
-    </style>
+  <!-- Shared affiliate logic -->
+  <script defer src="../shared/affiliate-config.js?v=20260106"></script>
+  <script defer src="../shared/affiliate-apply.js?v=20260106"></script>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Paycheck & Overtime Estimator</h1>
-        <p class="description">Quick rough estimate of your weekly pay.</p>
+  <div class="wrap">
+    <div class="card">
+      <h1>Paycheck &amp; Overtime<br/>Estimator</h1>
+      <p class="sub">Quick rough estimate of your weekly pay.</p>
 
-        <label>Hourly rate ($)</label>
-        <input type="number" id="hourlyRate" placeholder="e.g. 18.50" />
+      <div class="field">
+        <label for="rate">Hourly rate ($)</label>
+        <input id="rate" inputmode="decimal" placeholder="e.g. 18.50" />
+      </div>
 
-        <label>Regular hours worked</label>
-        <input type="number" id="regularHours" placeholder="e.g. 40" />
+      <div class="field">
+        <label for="regular">Regular hours worked</label>
+        <input id="regular" inputmode="decimal" placeholder="e.g. 40" />
+      </div>
 
-        <label>Overtime hours</label>
-        <input type="number" id="overtimeHours" placeholder="e.g. 5" />
+      <div class="field">
+        <label for="ot">Overtime hours</label>
+        <input id="ot" inputmode="decimal" placeholder="e.g. 5" />
+      </div>
 
-        <button onclick="calculatePaycheck()">Calculate Paycheck</button>
+      <button class="btn" id="calcBtn">Calculate Paycheck</button>
 
-        <div class="results" id="results" style="display: none;">
-            <p><strong>Estimated Pay</strong></p>
-            <p>Regular pay: <span id="regularPay"></span></p>
-            <p>Overtime pay: <span id="overtimePay"></span></p>
-            <p>Total (gross): <span id="totalPay"></span></p>
-        </div>
+      <div class="result" id="result"></div>
+
+      <div class="footer">Built with ❤ by TechFilled</div>
     </div>
 
-<section class="tf-monetize" aria-label="TechFilled Picks">
-  <h3>TechFilled Picks</h3>
-  <p class="small">Optional tools and resources that can help you move faster.</p>
+    <div class="picks">
+      <h2>TechFilled Picks</h2>
+      <p class="sub2">Optional tools and resources that can help you move faster.</p>
+      <ul>
+        <li><a href="#" data-affiliate-link="high_yield_savings">Find high-yield savings options →</a></li>
+        <li><a href="#" data-affiliate-link="budgeting_apps">Budgeting &amp; expense tracking apps →</a></li>
+        <li><a href="#" data-affiliate-link="credit_monitoring">Check credit monitoring options →</a></li>
+        <li><a href="#" data-affiliate-link="credit_builder">Explore credit builder tools →</a></li>
+      </ul>
 
-  <ul class="rec-list">
-    <li>\1 data-affiliate-link="high_yield_savings"\2Find high-yield savings options →</a></li>
-    <li>\1 data-affiliate-link="budgeting_apps"\2Budgeting & expense tracking apps →</a></li>
-    <li>\1 data-affiliate-link="credit_monitoring"\2Check credit monitoring options →</a></li>
-    <li>\1 data-affiliate-link="credit_builder"\2Explore credit builder tools →</a></li>
-  </ul>
+      <div class="ctaRow">
+        <a
+          class="ctaBtn"
+          href="https://filledtech.gumroad.com/l/upacz"
+          target="_blank"
+          rel="noopener"
+          data-affiliate-link="gumroad_savings_blueprint"
+        >
+          Get the $7 Savings Blueprint →
+        </a>
+      </div>
 
-  \1 data-affiliate-link="gumroad_savings_blueprint"\2Get the $7 Savings Blueprint →</a>
+      <div class="footer" style="margin-top:10px;">
+        <b>FTC Disclosure:</b> Some links may be affiliate links. If you click and take action, I may earn a commission at no extra cost to you.
+      </div>
+    </div>
+  </div>
 
-  <p class="small tf-ftc"><strong>FTC Disclosure:</strong> Some links may be affiliate links. If you click and take action, I may earn a commission at no extra cost to you.</p>
-</section>
+  <script>
+    function num(v){
+      const n = parseFloat(String(v).replace(/[^0-9.]/g,''));
+      return isFinite(n) ? n : null;
+    }
 
+    document.getElementById("calcBtn").addEventListener("click", () => {
+      const rate = num(document.getElementById("rate").value);
+      const regular = num(document.getElementById("regular").value);
+      const ot = num(document.getElementById("ot").value) ?? 0;
 
+      const out = document.getElementById("result");
 
-    <footer>
-        Built with <span>❤</span> by TechFilled
-    </footer>
-<script>
-        function calculatePaycheck() {
-            const hourlyRate = parseFloat(document.getElementById("hourlyRate").value);
-            const regularHours = parseFloat(document.getElementById("regularHours").value);
-            const overtimeHours = parseFloat(document.getElementById("overtimeHours").value);
+      if (rate === null || regular === null || rate <= 0 || regular < 0 || ot < 0) {
+        out.textContent = "Enter a valid hourly rate and hours.";
+        return;
+      }
 
-            if (isNaN(hourlyRate) || isNaN(regularHours) || isNaN(overtimeHours)) {
-                alert("Please fill out all fields.");
-                return;
-            }
+      const regularPay = rate * regular;
+      const overtimePay = rate * 1.5 * ot;
+      const total = regularPay + overtimePay;
 
-            const regularPay = hourlyRate * regularHours;
-            const overtimePay = overtimeHours * hourlyRate * 1.5;
-            const totalPay = regularPay + overtimePay;
+      out.innerHTML =
+        `Regular pay: $${regularPay.toFixed(2)}<br>` +
+        `Overtime pay: $${overtimePay.toFixed(2)}<br>` +
+        `<b>Estimated total: $${total.toFixed(2)}</b>`;
+    });
 
-            document.getElementById("regularPay").textContent = `$${regularPay.toFixed(2)}`;
-            document.getElementById("overtimePay").textContent = `$${overtimePay.toFixed(2)}`;
-            document.getElementById("totalPay").textContent = `$${totalPay.toFixed(2)}`;
-
-            document.getElementById("results").style.display = "block";
-        }
-
-        /* ---- PWA Service Worker Registration ---- */
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", () => {
-                navigator.serviceWorker
-                    .register("./service-worker.js")
-                    .then(() => console.log("Service Worker registered"))
-                    .catch(err => console.log("Service worker failed:", err));
-            });
-        }
-    </script>
-  <script defer src="../shared/affiliate-config.js?v=20260106"></script>
-  <script defer src="../shared/affiliate-apply.js?v=20260106"></script>
-
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("../sw.js?v=20260106").catch(() => {});
+    }
+  </script>
 </body>
 </html>
