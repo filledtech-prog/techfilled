@@ -1,171 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b0f14" />
   <title>TechFilled – Free Financial Tools</title>
-  <meta name="description" content="Free, mobile-friendly financial tools to help you save money, crush debt, and plan smarter." />
-  <meta name="theme-color" content="#0b0e11" />
+  <meta name="description" content="Free tools to help you save money, crush debt, and plan smarter." />
 
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#121924;
+      --text:#eaf2ff;
+      --muted:#b7c3d9;
+      --accent:#63ff7a;
+      --link:#8ab4ff;
+      --border:rgba(255,255,255,.10);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.45;
+    }
+    .wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}
+    header{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+    h1{margin:0;font-size:34px;letter-spacing:.2px}
+    .sub{color:var(--muted);max-width:70ch}
+    .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .section{margin-top:26px}
+    .section h2{margin:0 0 10px;font-size:18px;color:var(--muted);letter-spacing:.2px}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:12px;
+    }
+    .card{
+      border:1px solid var(--border);
+      background:var(--card);
+      border-radius:14px;
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:120px;
+    }
+    .title{font-weight:700}
+    .meta{color:var(--muted);font-size:13px}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:650;
+      width:max-content;
+      cursor:pointer;
+    }
+    .btn:hover{background:rgba(255,255,255,.10);text-decoration:none}
+    .btn-accent{
+      background:rgba(99,255,122,.12);
+      border-color:rgba(99,255,122,.35);
+      color:var(--text);
+    }
+    .btn-accent:hover{background:rgba(99,255,122,.18)}
+    .list{margin:0;padding-left:18px;color:var(--muted)}
+    footer{margin-top:26px;color:var(--muted);font-size:13px}
+    .fine{margin-top:10px;color:var(--muted);font-size:12px}
+  </style>
+
+  <!-- Cache-bust query to reduce stale SW + CDN caching -->
+  <script defer src="./affiliate-config.js?v=20260105"></script>
+  <script defer src="./affiliate-apply.js?v=20260105"></script>
 </head>
+
 <body>
   <div class="wrap">
-    <header class="header">
-      <div class="brand">
-        <div class="logo-mark" aria-hidden="true"></div>
-        <div>
-          <h1>TechFilled</h1>
-          <p class="tagline">
-            Free tools to help you save money, crush debt, and plan smarter.
-          </p>
-        </div>
-      </div>
+    <header>
+      <h1>TechFilled</h1>
+      <div class="sub">Free tools to help you save money, crush debt, and plan smarter.</div>
 
-      <div class="actions">
-        <a class="btn secondary" href="https://www.youtube.com/@TechFilled" target="_blank" rel="noopener">YouTube</a>
-        <a class="btn secondary" href="https://www.tiktok.com/@tech_filled" target="_blank" rel="noopener">TikTok</a>
-        <a class="btn secondary" href="https://www.facebook.com/techfilled" target="_blank" rel="noopener">Facebook</a>
+      <div class="row">
+        <a class="btn" href="https://www.youtube.com/@TechFilled" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn" href="https://www.tiktok.com/@tech_filled" target="_blank" rel="noopener">TikTok</a>
+        <a class="btn" href="https://www.facebook.com/techfilled" target="_blank" rel="noopener">Facebook</a>
       </div>
     </header>
 
-    <!-- EMAIL CAPTURE -->
-    <section class="email-capture">
+    <div class="section">
       <h2>Get new tools as we launch them</h2>
-      <p>
-        We release simple, installable tools weekly.
-        No spam — just practical apps that save time and money.
-      </p>
-      <a
-        class="btn primary"
-        href="https://forms.gle/D4fAv24Ecbh8QJR28"
-        target="_blank"
-        rel="noopener"
-      >
-        Join the TechFilled List →
-      </a>
-    </section>
-
-    <main>
-      <h2 class="section-title">Free Financial Tools</h2>
-
-      <div class="grid">
-        <a class="card featured" href="../SavingsGoalPlanner/" target="_blank" rel="noopener">
-          <div class="card-top">
-            <div class="icon" aria-hidden="true">💰</div>
-            <div>
-              <h2>Savings Goal Planner</h2>
-              <p>Set savings goals and track progress month by month.</p>
-            </div>
-          </div>
-          <div class="card-bottom">
-            <span class="pill">New • PWA</span>
-            <span class="go">Open →</span>
-          </div>
-        </a>
-
-        <a class="card" href="../PaycheckEstimator/" target="_blank" rel="noopener">
-          <div class="card-top">
-            <div class="icon" aria-hidden="true">💵</div>
-            <div>
-              <h2>Paycheck & Overtime Estimator</h2>
-              <p>Estimate weekly gross pay with overtime in seconds.</p>
-            </div>
-          </div>
-          <div class="card-bottom">
-            <span class="pill">PWA • Installable</span>
-            <span class="go">Open →</span>
-          </div>
-        </a>
-
-        <a class="card" href="../DailyBudgetCalculator/" target="_blank" rel="noopener">
-          <div class="card-top">
-            <div class="icon" aria-hidden="true">📅</div>
-            <div>
-              <h2>Daily Budget Calculator</h2>
-              <p>Turn income, bills, and savings into a daily spending target.</p>
-            </div>
-          </div>
-          <div class="card-bottom">
-            <span class="pill">PWA • Offline Ready</span>
-            <span class="go">Open →</span>
-          </div>
-        </a>
-
-        <a class="card" href="../TipSplitCalculator/" target="_blank" rel="noopener">
-          <div class="card-top">
-            <div class="icon" aria-hidden="true">🍽️</div>
-            <div>
-              <h2>Tip & Bill Split Calculator</h2>
-              <p>Calculate tip, tax, and split totals per person fast.</p>
-            </div>
-          </div>
-          <div class="card-bottom">
-            <span class="pill">PWA • Offline Ready</span>
-            <span class="go">Open →</span>
-          </div>
-        </a>
-
-        <a class="card" href="../DebtPayoffPlanner/" target="_blank" rel="noopener">
-          <div class="card-top">
-            <div class="icon" aria-hidden="true">📉</div>
-            <div>
-              <h2>Debt Payoff Planner</h2>
-              <p>Estimate payoff time, total interest, and how extra payments help.</p>
-            </div>
-          </div>
-          <div class="card-bottom">
-            <span class="pill">PWA • Offline Ready</span>
-            <span class="go">Open →</span>
-          </div>
-        </a>
-
-        <section class="card coming-soon" aria-label="Coming soon">
-          <div class="card-top">
-            <div class="icon" aria-hidden="true">🧰</div>
-            <div>
-              <h2>More tools coming</h2>
-              <p>We’re building new micro-apps weekly.</p>
-            </div>
-          </div>
-          <div class="card-bottom">
-            <span class="pill muted">Stay tuned</span>
-            <span class="go muted">Soon</span>
-          </div>
-        </section>
+      <div class="sub">We release simple, installable tools weekly. No spam — just practical apps that save time and money.</div>
+      <div class="row" style="margin-top:10px;">
+        <a class="btn" href="https://forms.gle/" target="_blank" rel="noopener">Join the TechFilled List →</a>
       </div>
-    </main>
+    </div>
 
-    <section class="tf-monetize" aria-label="TechFilled Picks">
-      <h3>TechFilled Picks</h3>
-      <p class="small">Optional tools and resources that can help you move faster.</p>
+    <div class="section">
+      <h2>Free Financial Tools</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="title">Savings Goal Planner</div>
+          <div class="meta">Set savings goals and track progress month by month. <b>New</b> • PWA</div>
+          <a class="btn" href="../SavingsGoalPlanner/" data-app-link="SavingsGoalPlanner">Open →</a>
+        </div>
 
-      <ul class="rec-list">
-        <li><a id="tfHighYieldLink" href="#" target="_blank" rel="noopener">Find high-yield savings options →</a></li>
-        <li><a id="tfBudgetingLink" href="#" target="_blank" rel="noopener">Budgeting & expense tracking apps →</a></li>
-        <li><a id="tfCreditMonitoringLink" href="#" target="_blank" rel="noopener">Check credit monitoring options →</a></li>
-        <li><a id="tfCreditBuilderLink" href="#" target="_blank" rel="noopener">Explore credit builder tools →</a></li>
+        <div class="card">
+          <div class="title">Paycheck &amp; Overtime Estimator</div>
+          <div class="meta">Estimate weekly gross pay with overtime in seconds. PWA • Installable</div>
+          <a class="btn" href="../PaycheckOvertimeEstimator/" data-app-link="PaycheckOvertimeEstimator">Open →</a>
+        </div>
+
+        <div class="card">
+          <div class="title">Daily Budget Calculator</div>
+          <div class="meta">Turn income, bills, and savings into a daily spending target. PWA • Offline Ready</div>
+          <a class="btn" href="../DailyBudgetCalculator/" data-app-link="DailyBudgetCalculator">Open →</a>
+        </div>
+
+        <div class="card">
+          <div class="title">Tip &amp; Bill Split Calculator</div>
+          <div class="meta">Calculate tip, tax, and split totals per person fast. PWA • Offline Ready</div>
+          <a class="btn" href="../TipSplitCalculator/" data-app-link="TipSplitCalculator">Open →</a>
+        </div>
+
+        <div class="card">
+          <div class="title">Debt Payoff Planner</div>
+          <div class="meta">Estimate payoff time, total interest, and how extra payments help. PWA • Offline Ready</div>
+          <a class="btn" href="../DebtPayoffPlanner/" data-app-link="DebtPayoffPlanner">Open →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>TechFilled Picks</h2>
+      <div class="sub">Optional tools and resources that can help you move faster.</div>
+      <ul class="list">
+        <li><a href="#" data-affiliate-link="high_yield_savings">Find high-yield savings options →</a></li>
+        <li><a href="#" data-affiliate-link="budgeting_apps">Budgeting &amp; expense tracking apps →</a></li>
+        <li><a href="#" data-affiliate-link="credit_monitoring">Check credit monitoring options →</a></li>
+        <li><a href="#" data-affiliate-link="credit_builder">Explore credit builder tools →</a></li>
       </ul>
 
-      <a id="tfGumroadLink" class="tf-cta" href="#" target="_blank" rel="noopener">Get the $7 Savings Blueprint →</a>
+      <div class="row" style="margin-top:14px;">
+        <!-- GUARANTEED FIX: hard-link tos to Gumroad so it ALWAYS works -->
+        <a
+          class="btn btn-accent"
+          id="gumroadBlueprintLink"
+          href="https://filledtech.gumroad.com/l/upacz"
+          target="_blank"
+          rel="noopener"
+          data-affiliate-link="gumroad_savings_blueprint"
+        >Get the $7 Savings Blueprint →
+        </a>
+      </div>
 
-      <p class="small tf-ftc"><strong>FTC Disclosure:</strong> Some links may be affiliate links. If you click and take action, I may earn a commission at no extra cost to you.</p>
-    </section>
+      <div class="fine">
+        FTC Disclosure: Some links may be affiliate links. If you click and take action, I may earn a commission at no extra cost to you.
+      </div>
+    </div>
 
-    <footer class="footer">
-      <p>
-        Built with <span class="heart">❤</span> by <strong>TechFilled</strong>
-      </p>
-      <p class="small">
-        Some tools may include optional recommendations that help support development.
-      </p>
-      <p class="small">
-        Tip: Open any tool, then “Add to Home Screen” to install it like an app.
-      </p>
+    <footer>
+      Built with ❤ by TechFilled
+      <div class="fine">Tip: Open any tool, then “Add to Home Screen” to install it like an app.</div>
     </footer>
   </div>
 
-  <script src="affiliate-config.js"></script>
-  <script src="affiliate-apply.js"></script>
+  <script>
+    // Service Worker (Hub)
+    // If your monorepo uses a different SW path, keep it consistent across apps.
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("../sw.js?v=20260105").catch(() => {});
+    }
+  </script>
 </body>
 </html>
